@@ -1,0 +1,15 @@
+{
+  "scope": "bethel",
+  "env": {
+    "DB_MONGO": "@db-mongo"
+  },
+  "builds": [
+    { "src": "index.js", "use": "@now/node" }
+  ],
+  "github": {
+    "silent": true
+  },
+  "routes": [
+    { "src": "/.*", "dest": "/" }
+  ]
+}
