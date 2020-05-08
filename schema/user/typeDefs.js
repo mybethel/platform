@@ -1,0 +1,28 @@
+const gql = require('graphql-tag')
+
+module.exports = gql`
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  avatar: URL
+  confirmed: Boolean!
+  email: String!
+  isLocked: Boolean!
+  lastLogin: DateTime
+  name: String
+  title: String
+}
+
+extend type Mutation {
+  issueToken(
+    email: String
+    password: String
+    token: String
+    ministry: ID
+  ): AuthPayload
+}
+`

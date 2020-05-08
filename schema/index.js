@@ -4,6 +4,7 @@ module.exports = [
   'asset',
   'collection',
   'ministry',
+  'user',
   'settings'
 ].reduce((result, module) => {
   const { resolvers, typeDefs, model } = require('./' + module)

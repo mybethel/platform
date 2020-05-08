@@ -12,6 +12,7 @@ exports.typeDefs = gql`
   scalar URL
 
   type Query
+  type Mutation
 
   type LinkedConnection {
     edges: [LinkedEdge]
