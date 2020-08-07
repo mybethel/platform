@@ -59,7 +59,7 @@ module.exports = {
         throw new ForbiddenError()
       }
 
-      return { user, token: newToken }
+      return { user, ministry, token: newToken }
     }
   },
   User: {

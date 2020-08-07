@@ -2,8 +2,9 @@ const gql = require('graphql-tag')
 
 module.exports = gql`
 type AuthPayload {
-  token: String
-  user: User
+  token: String!
+  user: User!
+  ministry: Ministry!
 }
 
 type User {
