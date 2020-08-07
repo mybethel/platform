@@ -59,7 +59,11 @@ module.exports = {
         throw new ForbiddenError()
       }
 
-      return { user, ministry, token: newToken }
+      return {
+        ministry: app.model('ministry').findOne(user.ministry),
+        user,
+        token: newToken
+      }
     }
   },
   User: {
