@@ -2,6 +2,7 @@ const gql = require('graphql-tag')
 
 module.exports = gql`
 type Collection {
+  id: ID!
   ministry: Ministry!
   parent: Collection
   title: String!

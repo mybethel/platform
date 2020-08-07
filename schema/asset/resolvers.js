@@ -5,7 +5,7 @@ const formatted = require('../../filters/formatted')
 module.exports = {
   Query: {
     asset (_, { id }, { app }) {
-      return app.model('asset').findById(id)
+      return app.model('podcastmedia').findById(id)
     }
   },
   Asset: {

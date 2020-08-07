@@ -1,5 +1,7 @@
 const { typeDefs, resolvers } = require('./common')
 
+const models = require('../legacy/models')
+
 module.exports = [
   'asset',
   'collection',
@@ -17,7 +19,7 @@ module.exports = [
 
   return result
 }, {
-  models: {},
+  models,
   resolvers: [resolvers],
   typeDefs: [typeDefs]
 })
