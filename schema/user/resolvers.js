@@ -53,17 +53,19 @@ module.exports = {
         expiresIn: config.token.expiresInDays + 'd'
       })
 
-      if (token) return { user, token: newToken }
+      const payload = {
+        ministry: app.model('ministry').findOne(user.ministry),
+        user,
+        token: newToken
+      }
+
+      if (token) return payload
 
       if (!await bcrypt.compare(password, user.password)) {
         throw new ForbiddenError()
       }
 
-      return {
-        ministry: app.model('ministry').findOne(user.ministry),
-        user,
-        token: newToken
-      }
+      return payload
     }
   },
   User: {
