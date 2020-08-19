@@ -39,7 +39,7 @@ exports.resolvers = {
   DateTime: DateTimeResolver,
   LinkableItem: {
     __resolveType (obj) {
-      if (obj.size) {
+      if (obj.size || obj.thumbnail) {
         return 'Asset'
       }
     }

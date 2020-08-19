@@ -9,6 +9,7 @@ type Asset {
   contentType: String
   fileName: String
   title: String
+  url: String
   size: Int
   width: Int
   height: Int
