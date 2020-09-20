@@ -26,6 +26,12 @@ module.exports = {
       }
     },
     ministry: ({ ministry }, _, { app }) => app.model('ministry').findById(ministry),
+    settings ({ settings = {} }) {
+      settings = new Map(Object.entries(settings))
+      if (!settings.size) return
+
+      return { items: Array.from(settings.entries(), ([key, value]) => ({ key, value })) }
+    },
     title: ({ name }) => name,
     type: ({ type }) => type || 'io.bethel.podcast'
   }
