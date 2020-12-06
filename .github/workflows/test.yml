@@ -39,3 +39,31 @@ jobs:
           ${{ runner.os }}-node-
     - run: npm ci
     - run: npx eslint .
+
+  schema:
+    if: github.event_name != 'pull_request'
+    name: Schema validation
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+        registry-url: 'https://npm.pkg.github.com'
+    - run: npm ci
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GPR_TOKEN }}
+    - run: |
+        npm start &
+        npx wait-on tcp:4000
+      env:
+        DB_MONGO: ${{ secrets.DB_MONGO }}
+    - if: contains(github.ref, 'main') == false
+      run: npx apollo service:check
+      env:
+        ENGINE_API_KEY: ${{ secrets.APOLLO_KEY }}
+    - if: contains(github.ref, 'main')
+      run: npx apollo service:push
+      env:
+        ENGINE_API_KEY: ${{ secrets.APOLLO_KEY }}
