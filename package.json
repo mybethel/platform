@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "micro-dev -s",
+    "start": "micro-dev -s -p 4000",
     "test": "jest"
   },
   "author": "Albert Martin <albert@bethel.io>",
