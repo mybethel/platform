@@ -19,8 +19,8 @@ class MongoDataSource extends DataSource {
   }
 
   async batchFn (ids) {
-    const result = await this.collection.find({ _id: { $in: ids.map(ObjectId) } }).toArray()
-    return ids.map(id => result.find(({ _id }) => _id.toHexString() === id))
+    const result = await this.collection.find({ _id: { $in: ids } }).toArray()
+    return ids.map(id => result.find(({ _id }) => _id.equals(id)))
   }
 
   cacheKey (id) {
@@ -39,6 +39,7 @@ class MongoDataSource extends DataSource {
       return EJSON.parse(cacheDoc)
     }
 
+    id = typeof id === 'string' ? ObjectId(id) : id
     const doc = await this.loader.load(id)
 
     if (ttlInSeconds) {
