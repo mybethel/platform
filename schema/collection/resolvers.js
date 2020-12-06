@@ -1,12 +1,9 @@
-const cleanObject = require('../../filters/cleanObject')
-const formatted = require('../../filters/formatted')
-
 module.exports = {
   Query: {
     collection: (_, { id }, { dataSources }) => dataSources.collection.get(id)
   },
   Collection: {
-    description: ({ description }, { format }) => formatted(description, format),
+    description: ({ description }, { format }, { filters }) => filters.formatted(description, format),
     id: ({ _id }) => _id,
     async links (collection, _, { dataSources }) {
       const assets = await dataSources.asset.findLinkedAssets(collection._id)
@@ -17,8 +14,8 @@ module.exports = {
       }
     },
     ministry: ({ ministry }, _, { dataSources }) => dataSources.ministry.get(ministry),
-    settings (collection) {
-      const settings = new Map(Object.entries(collection.settings || cleanObject({
+    settings (collection, _, { filters }) {
+      const settings = new Map(Object.entries(collection.settings || filters.cleanObject({
         image: collection.imageUrl,
         lastSync: collection.lastSync,
         source: { 1: 'CLOUD', 2: 'VIMEO' }[collection.source || 1],

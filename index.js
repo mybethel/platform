@@ -4,10 +4,11 @@ const cors = require('micro-cors')
 const { typeDefs, resolvers } = require('./schema')
 const dataSources = require('./data-sources')
 const config = require('./hooks/config')
+const context = require('./hooks/context')
 const client = require('./hooks/db')
 
 const server = new ApolloServer({
-  context: () => ({ config }),
+  context: context.bind(this),
   dataSources: dataSources.bind(this),
   introspection: true,
   playground: true,
