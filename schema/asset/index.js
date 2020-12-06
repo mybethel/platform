@@ -1,3 +1,3 @@
-exports.model = require('./model')
+exports.dataSource = require('./data-source')
 exports.resolvers = require('./resolvers')
 exports.typeDefs = require('./typeDefs')

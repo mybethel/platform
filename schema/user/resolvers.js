@@ -21,7 +21,7 @@ module.exports = {
      * @param {String} [params.token] - A valid, unexpired token in lieue of email/password.
      * @param {String} [params.ministry] - The ministry ID to use as primary.
      */
-    async issueToken (_, { email, password, ministry, token }, { app, config }) {
+    async issueToken (_, { email, password, ministry, token }, { config, dataSources }) {
       if (!(email && password) && !token) {
         throw new UserInputError('an e-mail and password or valid token is required')
       }
@@ -30,15 +30,14 @@ module.exports = {
         token = verify(token, config.token.hash)
       }
 
-      const user = await app.model('user').findOne(token ? { _id: token.sub } : { email })
+      const user = await dataSources.users.collection.findOne(token ? { _id: token.sub } : { email })
       if (!user) throw new ForbiddenError()
 
       // Allow the user to masquerade under a ministry other than their primary.
       // Requires the user to have staff permissions or to have the ministry ID
       // listed as authorized on their account.
       if (ministry) {
-        const userObject = user.toJSON()
-        if (userObject.permission !== 'staff' && userObject.ministriesAuthorized.indexOf(ministry) < 0) {
+        if (user.permission !== 'staff' && user.ministriesAuthorized.indexOf(ministry) < 0) {
           throw new ForbiddenError('cannot masquerade as this ministry')
         }
 
@@ -54,7 +53,7 @@ module.exports = {
       })
 
       const payload = {
-        ministry: app.model('ministry').findOne(user.ministry),
+        ministry: dataSources.ministry.get(user.ministry),
         user,
         token: newToken
       }

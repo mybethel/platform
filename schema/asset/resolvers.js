@@ -4,9 +4,7 @@ const formatted = require('../../filters/formatted')
 
 module.exports = {
   Query: {
-    asset (_, { id }, { app }) {
-      return app.model('podcastmedia').findById(id)
-    }
+    asset: (_, { id }, { dataSources }) => dataSources.assets.get(id)
   },
   Asset: {
     contentType: ({ url }) => mime.getType(url),

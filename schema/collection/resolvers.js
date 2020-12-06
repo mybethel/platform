@@ -1,33 +1,29 @@
+const cleanObject = require('../../filters/cleanObject')
 const formatted = require('../../filters/formatted')
-const { withLegacyModels } = require('../../legacy/utils')
 
 module.exports = {
   Query: {
-    collection (_, { id }, { app }) {
-      return withLegacyModels([
-        app.model('collection'),
-        app.model('podcast')
-      ], model => model.findById(id))
-    }
+    collection: (_, { id }, { dataSources }) => dataSources.collection.get(id)
   },
   Collection: {
     description: ({ description }, { format }) => formatted(description, format),
-    async links (collection, _, { app }) {
-      const [assets, legacy] = await Promise.all([
-        app.model('asset').find({ in: collection.id }),
-        app.model('podcastmedia').find({ podcast: collection.id })
-      ])
-
-      const edges = assets.concat(legacy).sort((a, b) => new Date(b.date) - new Date(a.date))
+    async links (collection, _, { dataSources }) {
+      const assets = await dataSources.assets.findLinkedAssets(collection._id)
 
       return {
-        edges: edges.map(node => ({ node })),
-        totalCount: edges.length
+        edges: assets.map(node => ({ node })),
+        totalCount: assets.length
       }
     },
-    ministry: ({ ministry }, _, { app }) => app.model('ministry').findById(ministry),
-    settings ({ settings = {} }) {
-      settings = new Map(Object.entries(settings))
+    ministry: ({ ministry }, _, { dataSources }) => dataSources.ministry.get(ministry),
+    settings (collection) {
+      const settings = new Map(Object.entries(collection.settings || cleanObject({
+        image: collection.imageUrl,
+        lastSync: collection.lastSync,
+        source: { 1: 'CLOUD', 2: 'VIMEO' }[collection.source || 1],
+        sourceMeta: collection.sourceMeta ? collection.sourceMeta.join(', ') : undefined
+      })))
+
       if (!settings.size) return
 
       return { items: Array.from(settings.entries(), ([key, value]) => ({ key, value })) }
