@@ -1,3 +1,5 @@
+.DS_Store
 .now
 config/env/local.js
+coverage
 node_modules

@@ -1,1 +1,3 @@
+.github
 config/env/local.js
+*.spec.js

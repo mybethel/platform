@@ -1,8 +1,18 @@
 {
   "env": {
+    "jest/globals": true,
     "node": true
   },
   "extends": [
     "standard"
-  ]
+  ],
+  "overrides": [
+    {
+      "files": ["*.spec.js"],
+      "extends": [
+        "plugin:jest/recommended"
+      ]
+    }
+  ],
+  "plugins": ["jest"]
 }
