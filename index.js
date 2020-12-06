@@ -1,9 +1,8 @@
 const cors = require('micro-cors')
 
+const apollo = require('./hooks/apollo')
 const config = require('./hooks/config')
 const client = require('./hooks/db')
-
-const apollo = require('./apollo')
 
 const server = apollo.createHandler()
 
