@@ -30,7 +30,7 @@ module.exports = {
         token = verify(token, config.token.hash)
       }
 
-      const user = await dataSources.users.collection.findOne(token ? { _id: token.sub } : { email })
+      const user = await dataSources.user.collection.findOne(token ? { _id: token.sub } : { email })
       if (!user) throw new ForbiddenError()
 
       // Allow the user to masquerade under a ministry other than their primary.
