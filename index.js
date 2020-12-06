@@ -4,6 +4,7 @@ const cors = require('micro-cors')
 const { typeDefs, resolvers } = require('./schema')
 const dataSources = require('./data-sources')
 const config = require('./hooks/config')
+const client = require('./hooks/db')
 
 const server = new ApolloServer({
   context: () => ({ config }),
@@ -14,4 +15,8 @@ const server = new ApolloServer({
   typeDefs
 }).createHandler()
 
-module.exports = cors(config.cors)(server)
+module.exports = cors(config.cors)(async (req, res) => {
+  if (req.method === 'OPTIONS') return res.end()
+  await client.connect()
+  server(req, res)
+})
