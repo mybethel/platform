@@ -17,6 +17,6 @@ const server = new ApolloServer({
 
 module.exports = cors(config.cors)(async (req, res) => {
   if (req.method === 'OPTIONS') return res.end()
-  await client.connect()
+  if (!client.isConnected()) await client.connect()
   server(req, res)
 })
