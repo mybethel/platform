@@ -1,6 +1,7 @@
 {
   "scope": "bethel",
   "env": {
+    "APOLLO_KEY": "@apollo-key",
     "DB_MONGO": "@db-mongo"
   },
   "builds": [
