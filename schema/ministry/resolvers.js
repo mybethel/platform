@@ -4,7 +4,7 @@ module.exports = {
   },
   Ministry: {
     async collections (ministry, { type }, { dataSources }) {
-      const edges = await dataSources.collection.findByMinistry(ministry.id)
+      const edges = await dataSources.collection.findByMinistry(ministry._id)
       return {
         edges: edges.map(node => ({ node })),
         totalCount: edges.length
