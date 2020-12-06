@@ -9,6 +9,7 @@ module.exports = {
         edges: edges.map(node => ({ node })),
         totalCount: edges.length
       }
-    }
+    },
+    id: ({ _id }) => _id
   }
 }

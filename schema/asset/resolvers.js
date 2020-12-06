@@ -9,6 +9,7 @@ module.exports = {
   Asset: {
     contentType: ({ url }) => mime.getType(url),
     description: ({ description }, { format }) => formatted(description, format),
+    id: ({ _id }) => _id,
     title: ({ name }) => name
   }
 }

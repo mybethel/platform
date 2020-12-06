@@ -68,6 +68,7 @@ module.exports = {
     }
   },
   User: {
+    id: ({ _id }) => _id,
     avatar ({ email }) {
       const hash = crypto.createHash('md5').update(email).digest('hex')
       return `https://gravatar.com/avatar/${hash}.png?d=mm`

@@ -7,6 +7,7 @@ module.exports = {
   },
   Collection: {
     description: ({ description }, { format }) => formatted(description, format),
+    id: ({ _id }) => _id,
     async links (collection, _, { dataSources }) {
       const assets = await dataSources.assets.findLinkedAssets(collection._id)
 
