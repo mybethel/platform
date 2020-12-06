@@ -9,7 +9,7 @@ module.exports = {
     description: ({ description }, { format }) => formatted(description, format),
     id: ({ _id }) => _id,
     async links (collection, _, { dataSources }) {
-      const assets = await dataSources.assets.findLinkedAssets(collection._id)
+      const assets = await dataSources.asset.findLinkedAssets(collection._id)
 
       return {
         edges: assets.map(node => ({ node })),
