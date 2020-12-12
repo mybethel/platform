@@ -9,6 +9,9 @@ module.exports = new ApolloServer({
   dataSources: dataSources.bind(this),
   introspection: true,
   playground: true,
+  plugins: [
+    require('./sentry')
+  ],
   resolvers,
   typeDefs
 })
