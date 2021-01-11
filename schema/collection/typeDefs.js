@@ -5,9 +5,10 @@ type Collection {
   id: ID!
   ministry: Ministry!
   parent: Collection
-  title: String!
   type: String!
+  title: String!
   description(format: TextFormat): String
+  tags: [String]
   settings: Settings
   links(
     after: String

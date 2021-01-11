@@ -15,18 +15,17 @@ module.exports = {
     },
     ministry: ({ ministry }, _, { dataSources }) => dataSources.ministry.get(ministry),
     settings (collection, _, { filters }) {
-      const settings = new Map(Object.entries(collection.settings || filters.cleanObject({
-        image: collection.imageUrl,
-        lastSync: collection.lastSync,
-        source: { 1: 'CLOUD', 2: 'VIMEO' }[collection.source || 1],
-        sourceMeta: collection.sourceMeta ? collection.sourceMeta.join(', ') : undefined
-      })))
+      const items = Object.entries(collection.settings).map(([key, value]) => {
+        if (value === null || value === 'undefined') return false
 
-      if (!settings.size) return
+        if (value && typeof value === 'object' && !Array.isArray(value)) {
+          return Object.entries(value).map(([childKey, childValue]) => ({ key: `${key}.${childKey}`, value: childValue }))
+        }
 
-      return { items: Array.from(settings.entries(), ([key, value]) => ({ key, value })) }
-    },
-    title: ({ name }) => name,
-    type: ({ type }) => type || 'io.bethel.podcast'
+        return { key, value }
+      }).flat().filter(Boolean)
+
+      return { items }
+    }
   }
 }
