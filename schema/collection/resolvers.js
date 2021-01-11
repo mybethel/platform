@@ -16,8 +16,9 @@ module.exports = {
       }
     },
     ministry: ({ ministry }, _, { dataSources }) => dataSources.ministry.get(ministry),
-    settings (collection, _, { filters }) {
-      return { items: collectionSettings(collection.settings) }
-    }
+    settings: ({ settings, type }, _, { dataSources }) => ({
+      schema: async () => (await dataSources.apps.get(type)).settings.collections,
+      items: collectionSettings(settings)
+    })
   }
 }
