@@ -14,6 +14,7 @@ type User {
   email: String!
   isLocked: Boolean!
   lastLogin: DateTime
+  ministries: MinistryConnection!
   name: String
   title: String
 }

@@ -37,7 +37,7 @@ module.exports = {
       // Requires the user to have staff permissions or to have the ministry ID
       // listed as authorized on their account.
       if (ministry) {
-        if (user.permission !== 'staff' && user.ministriesAuthorized.indexOf(ministry) < 0) {
+        if (user.roles.includes('ROLE_SUPER_ADMIN') && user.ministriesAuthorized.indexOf(ministry) < 0) {
           throw new ForbiddenError('cannot masquerade as this ministry')
         }
 
@@ -72,6 +72,16 @@ module.exports = {
     avatar ({ email }) {
       const hash = crypto.createHash('md5').update(email).digest('hex')
       return `https://gravatar.com/avatar/${hash}.png?d=mm`
+    },
+    async ministries (user, args, { dataSources }) {
+      const query = {}
+      if (!user.roles.includes('ROLE_SUPER_ADMIN')) {
+        const authorized = user.ministriesAuthorized || []
+        authorized.push(user.ministry)
+        query._id = { $in: authorized }
+      }
+
+      return dataSources.ministry.collection.find(query).toArray()
     }
   }
 }

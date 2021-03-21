@@ -11,5 +11,9 @@ module.exports = {
       }
     },
     id: ({ _id }) => _id
+  },
+  MinistryConnection: {
+    edges: (nodes) => nodes.map(node => ({ node })),
+    totalCount: (nodes) => nodes.length
   }
 }
