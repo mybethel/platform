@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
+const { ObjectId } = require('mongodb')
 const { sign, verify } = require('jsonwebtoken')
 
 const {
@@ -31,7 +32,7 @@ module.exports = {
       }
 
       const user = await dataSources.user.collection.findOne(
-        token ? { _id: token.sub } : { email: email.toLowerCase() }
+        token ? { _id: new ObjectId(token.sub) } : { email: email.toLowerCase() }
       )
       if (!user) throw new ForbiddenError()
 
