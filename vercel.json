@@ -5,7 +5,7 @@
     "DB_MONGO": "@db-mongo"
   },
   "builds": [
-    { "src": "index.js", "use": "@now/node" }
+    { "src": "index.js", "use": "@vercel/node" }
   ],
   "github": {
     "silent": true
