@@ -27,7 +27,7 @@
     "micro": "^9.3.4",
     "micro-cors": "^0.1.1",
     "mime": "^2.4.4",
-    "mongodb": "^3.6.3",
+    "mongodb": "^4.12.1",
     "remove-markdown": "^0.3.0"
   },
   "devDependencies": {
